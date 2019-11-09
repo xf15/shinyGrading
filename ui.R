@@ -44,7 +44,7 @@ fluidPage(
          
          h2("Send grades"),
          helpText("Click through all the students before emailing out grades"),
-         numericInput("email_ws", "Which worksheet is graded?", value = 1, max = num_ws),
+         numericInput("email_ws", "Which worksheet was graded?", value = 1, max = num_ws),
          textInput("email_grader", "Who is grading?"),
          actionButton("email_send", "Email grades")
          
