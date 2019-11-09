@@ -3,11 +3,9 @@ library(readxl)
 library(tidyverse)
 library(reshape2)
 # library(ggpubr)
-if(require(mailR)){
-  library(mailR)
-  # this is the even worse shiny one
-  # library(sendmailR)
-}
+library(mailR) # better than sendmailR
+
+
 
 # one student whose last name is ward dropped the class and Josh Kingston joined the class after I made this.
 
