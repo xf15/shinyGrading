@@ -31,7 +31,7 @@ fluidPage(
   # fluidPage(
   column(8,
          h2("See grades"),
-         helpText("Refresh grades plot if you don't see new grades. Refreshing never hurts"),
+         helpText("Refresh grades if you don't see new grades. Refreshing never hurts"),
          actionButton("see_refresh", "Refresh grades"),
          
          selectInput("see_student", "Student Name", students)
@@ -46,6 +46,8 @@ fluidPage(
          helpText("Click through all the students before emailing out grades"),
          numericInput("email_ws", "Which worksheet was graded?", value = 1, max = num_ws),
          textInput("email_grader", "Who is grading?"),
+         textInput("email_grader_email", "Email:"),
+         textInput("email_grader_passowrd", "Password:"),
          actionButton("email_send", "Email grades")
          
   )  

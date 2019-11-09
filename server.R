@@ -118,7 +118,7 @@ function(input, output, session){
   observeEvent(input$email_send,{
     req(input$email_ws)
     req(input$email_grader)
-    email_grades(input$email_ws, input$email_grader)
+    email_grades(input$email_grader_email, input$email_grader_password, input$email_ws, input$email_grader)
   })
 
 

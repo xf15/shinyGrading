@@ -3,11 +3,11 @@ library(readxl)
 library(tidyverse)
 library(reshape2)
 # library(ggpubr)
-# if(require(mailR)){
-#   library(mailR)
-#   # this is the even worse shiny one
-#   # library(sendmailR)
-# }
+if(require(mailR)){
+  library(mailR)
+  # this is the even worse shiny one
+  # library(sendmailR)
+}
 
 # one student whose last name is ward dropped the class and Josh Kingston joined the class after I made this.
 
@@ -109,7 +109,7 @@ if(bInitial==1){
 
 
 #C:\Program Files\Java\jdk1.8.0_161
-email_grades = function(my_ws, my_grader){
+email_grades = function(my_grader_email, my_grader_password, my_ws, my_grader){
   for(iS in 1:length(students)){
   # 11 is Josephine
   # for(iS in 11){
@@ -128,12 +128,12 @@ email_grades = function(my_ws, my_grader){
       eval(parse(text = paste0("detail = ", students[iS], "['", students[iS], my_ws-1,"', 'detail']")))
     }
 
-    send.mail(from = paste0("cindyoutofoffice@gmail.com"),
+    send.mail(from = my_grader_email,
               # to = paste0(acct[iS], email_suffix),
               to = emails[iS],
               subject = paste0("[stats for cognitive science] Your worksheet", my_ws, " is graded"),
               body = print(paste0("Hi ", first_names[iS], ",\n\nThis is your TA from Stats for Cognitive Psychology. Your worksheet", my_ws, " has been graded. Your got ", correctness, " for conceptual understanding, ", code, " for quality of code, and ", detail, " for attention to detail. Here is your narrative feedback:\n\n\n", comment, "\n\nEnjoy,\n",my_grader, "\n\nThis email is automated from R. Do not reply")),
-              smtp = list(host.name="smtp.gmail.com", port=465, user.name="cindyisoutofoffice", passwd="12qw!@QW", ssl=TRUE),
+              smtp = list(host.name="smtp.gmail.com", port=465, user.name="cindyisoutofoffice", passwd=my_grader_password, ssl=TRUE),
               # attach.files = paste0(st_dir, "/", students[iS], ".rda"),
               file.names =  paste0(students[iS], ".rda"),
               authenticate = TRUE,
