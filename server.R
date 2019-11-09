@@ -1,69 +1,69 @@
 function(input, output, session){
-  
-  
+
+
   rv = reactiveValues()
   rv$see_df = NULL # the df of current student_grade be shown
   rv$see_cur_st = NA # the index of the current student be shown
-  
-  
-  
+
+
+
   observeEvent(input$grade_save,{
-    
-    
+
+
     eval(parse(text = paste0("load('", ws_dir,"/ws", input$grade_ws, ".rda')")))
-    
+
     # # deprecated
     # Metrics_content = c(input$grade_correctness, input$grade_detail, input$grade_general)
     # eval(parse(text = paste0("ws", input$grade_ws, "['", input$grade_student, "',]= Metrics_content")))
     for (iMetric in numeric_metrics) {
       eval(parse(text = paste0("ws", input$grade_ws, "['", input$grade_student, "','", iMetric, "']= as.numeric(evaluation_list['", input[[paste0('grade_', iMetric)]], "'])")))
     }
-    
- 
+
+
       eval(parse(text = paste0("ws", input$grade_ws, "['", input$grade_student, "','enjoy']= as.numeric(enjoy_list['", input[[paste0('grade_', 'enjoy')]], "'])")))
       eval(parse(text = paste0("ws", input$grade_ws, "['", input$grade_student, "','helpful']= as.numeric(helpful_list['", input[[paste0('grade_', 'helpful')]], "'])")))
-    
-    
-    
 
- 
+
+
+
+
 
     # eval(parse(text = paste0("ws", input$grade_ws, "['", input$grade_student, "','detail']=", as.numeric(input$grade_detail))))
     # eval(parse(text = paste0("ws", input$grade_ws, "['", input$grade_student, "','code']=", as.numeric(input$grade_code))))
     eval(parse(text = paste0("ws", input$grade_ws, "['", input$grade_student, "','time']=", as.numeric(input$grade_time))))
     eval(parse(text = paste0("ws", input$grade_ws, "['", input$grade_student, "','TA_hours']=", as.numeric(input$grade_TA_hours))))
-    
+
     eval(parse(text = paste0("ws", input$grade_ws, "['", input$grade_student, "','general_comment']='", input$grade_general, "'")))
     print(as.numeric(input$grade_correctness))
-    
-    
+
+
     #eval(parse(text = paste0("ws", input$grade_ws, "['", input$grade_student, "','correctness']=", input$grade_correctness)))
     #eval(parse(text = paste0("ws", input$grade_ws, "['", input$grade_student, "','detail']=", input$grade_detail)))
     #eval(parse(text = paste0("ws", input$grade_ws, "['", input$grade_student, "','code']=", input$grade_code)))
     #eval(parse(text = paste0("ws", input$grade_ws, "['", input$grade_student, "','general comment']='", input$grade_general, "'")))
-    
-    
-    
-    
-    
+
+
+
+
+
     print(paste0("ws", input$grade_ws, "['", input$grade_student, "',]= Metrics_content"))
-    eval(parse(text= paste0("print(ws", input$grade_ws, ")"))) 
+    eval(parse(text= paste0("print(ws", input$grade_ws, ")")))
     filename = paste0(ws_dir, "/ws", input$grade_ws, ".rda")
-    eval(parse(text = paste0("save(ws", input$grade_ws, ", file = filename)")))
-    
+    eval(parse(text = paste0("save(ws", input$grade_ws, ", file = filename, version=2)")))
+
   })
-  
-  
-  
+
+
+
   observeEvent(input$see_refresh,{
     create_df_for_each_student(students)
     filename = paste0(st_dir, "/", input$see_student, ".rda")
     eval(parse(text=paste0("load('", filename, "')")))
     eval(parse(text=paste0('rv$see_df = ', input$see_student)))
   })
-  
-  
-  
+
+
+
   observe({
     req(input$see_student)
     # req(input$see_refresh)
@@ -72,7 +72,7 @@ function(input, output, session){
     eval(parse(text=paste0('rv$see_df = ', input$see_student)))
     rv$see_cur_st = match(input$see_student, students)
   })
-  
+
   output$see_grades <- renderPlot({
     # req(input$see_student)
     # req(input$see_refresh)
@@ -81,7 +81,7 @@ function(input, output, session){
     eval(parse(text=paste0('rv$see_df = ', input$see_student)))
     df1 = rv$see_df
     # df1 = df1[numeric_Metrics]
-    
+
     df1 = subset(df1, select=-c(general_comment))
     df1$ws = 1:nrow(df1)
     df2 = melt(df1, id='ws')
@@ -96,10 +96,10 @@ function(input, output, session){
       ylim(-1,grade_max) +
       # scale_y_discrete(limits=0:3) +
       scale_x_discrete(limits=1:nrow(df1))
-    
-    
+
+
   })
-  
+
   observeEvent(input$see_next_st,{
     req(input$see_student)
     # req(input$see_refresh)
@@ -107,7 +107,7 @@ function(input, output, session){
       updateTextInput(session, "see_student", value = students[rv$see_cur_st + 1])
     }
   })
-  
+
   observeEvent(input$see_pre_st,{
     req(input$see_student)
     # req(input$see_refresh)
@@ -120,6 +120,6 @@ function(input, output, session){
     req(input$email_grader)
     email_grades(input$email_ws, input$email_grader)
   })
-  
-  
+
+
 }

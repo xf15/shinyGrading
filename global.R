@@ -60,7 +60,7 @@ create_initial_df_for_each_ws = function(my_students, my_metrics, my_num_ws){
   # for(iWS in 11:my_num_ws){
     eval(parse(text = paste0("ws", iWS, "= df")))
     filename = paste0(ws_dir, "/ws", iWS, ".rda")
-    eval(parse(text = paste0("save(ws", iWS, ", file = filename)")))
+    eval(parse(text = paste0("save(ws", iWS, ", file = filename, version=2)")))
     # save(df, file=paste0("ws", iWS, ".rda"))
   }
 }
@@ -78,12 +78,12 @@ add_students_to_graded_ws = function(new_student, my_metrics){
     df = rbind(df, df1)
     eval(parse(text = paste0("ws", iWS, "= df")))
     filename = paste0(ws_dir, "/ws", iWS, ".rda")
-    eval(parse(text = paste0("save(ws", iWS, ", file = filename)")))
+    eval(parse(text = paste0("save(ws", iWS, ", file = filename, version=2)")))
   }
 }
 
 #' @export
-#' create an empty dataframe for each student at the begining, empty grades extracted from empty worksheet_grades. Called to update student_grades when chnanges are made to student_grades
+#' create an empty dataframe for each student at the begining, empty grades extracted from empty worksheet_grades. Update student_grades when changes are made to student_grades
 create_df_for_each_student = function(my_students){
   print(students)
   for(iWS in 1: num_ws){
@@ -98,7 +98,7 @@ create_df_for_each_student = function(my_students){
     }
     # eval(parse(text = paste0("rownames(", iS, ") = ")))
     filename = paste0(st_dir, "/", iS, ".rda")
-    eval(parse(text = paste0("save(", iS, ", file = filename)")))
+    eval(parse(text = paste0("save(", iS, ", file = filename, version=2)")))
   }
 }
 
