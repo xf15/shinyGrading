@@ -15,7 +15,7 @@ rm(list=ls())
 roster_info <- readxl::read_xls("roster_mock.xls")
 
 # # will delete all grades careful!! should only be run at the beginning
-bInitial = 1
+bInitial = 0
 
 evaluation_levels <- c("Excellent", "Good", "Fair", "Serious issues", "Did not turn in")
 #evaluation_levels <- c("Excellent: almost everything correct", "Very good/good: most problems correct", "Fair: effort but a few significant mistakes", "Serious issues: many problems wrong/incomplete", "Did not turn in: in danger of not receiving an eval")
@@ -39,7 +39,7 @@ metrics = c(numeric_metrics, "general_comment", "time", "TA_hours", "enjoy","hel
 students = roster_info$`Last Name`
 first_names = roster_info$`First Name`
 emails = roster_info$Email
-num_ws = 12
+num_ws = 5
 grade_max = 8
 email_suffix = "@hampshire.edu"
 
@@ -47,6 +47,8 @@ email_suffix = "@hampshire.edu"
 ws_dir = "worksheet_grades"
 st_dir ="student_grades"
 
+#' @export
+#' create an empty dataframe for each worksheet, only run once at the beginning
 create_initial_df_for_each_ws = function(my_students, my_metrics, my_num_ws){
   dir.create(ws_dir)
   dir.create(st_dir)
@@ -64,8 +66,8 @@ create_initial_df_for_each_ws = function(my_students, my_metrics, my_num_ws){
 }
 
 
-#
-
+#' @export
+#' run once when a new student joins in the class
 add_students_to_graded_ws = function(new_student, my_metrics){
   for(iWS in 1:5){
     load(paste0(ws_dir, "/ws", iWS, ".rda"))
@@ -80,11 +82,8 @@ add_students_to_graded_ws = function(new_student, my_metrics){
   }
 }
 
-# this should only be run once
-# add_students_to_graded_ws("Kingston", metrics)
-
-
-
+#' @export
+#' create an empty dataframe for each student at the begining, empty grades extracted from empty worksheet_grades. Called to update student_grades when chnanges are made to student_grades
 create_df_for_each_student = function(my_students){
   print(students)
   for(iWS in 1: num_ws){

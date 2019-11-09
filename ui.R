@@ -14,7 +14,7 @@ fluidPage(
          selectInput("grade_detail", "Effort -- Attention to detail/effort (thorough explanations, axes labels, using LaTeX)", evaluation_levels, selected = "Did not turn in"),
          checkboxInput("grade_TA_hours", "Attended TA hours"),
          
-         helpText("ATTENTION: Do not use double or single quote in comments! To be safer, write comments somewhere else and the copy to here; if the app crashes your writing will be lost."),
+         helpText("ATTENTION: Do not use double or single quote in comments! You are recommended to write comments somewhere else and then copy to here; if the app crashes your writing will be lost."),
          textAreaInput("grade_general", "General Comments", height = '300px'),
          textInput("grade_time", "How long they spent on the homework"),
          selectInput("grade_enjoy", "How much they enjoyed it", enjoy_levels),
@@ -31,7 +31,7 @@ fluidPage(
   # fluidPage(
   column(8,
          h2("See grades"),
-         helpText("Refresh to plot if you just updated grades or you don't see any plot. Refreshing never hurts"),
+         helpText("Refresh grades plot if you don't see new grades. Refreshing never hurts"),
          actionButton("see_refresh", "Refresh grades"),
          
          selectInput("see_student", "Student Name", students)
@@ -43,7 +43,7 @@ fluidPage(
          
          
          h2("Send grades"),
-         helpText("Once hand-check everyone's grade, email out grades"),
+         helpText("Click through all the students before emailing out grades"),
          numericInput("email_ws", "Which worksheet is graded?", value = 1, max = num_ws),
          textInput("email_grader", "Who is grading?"),
          actionButton("email_send", "Email grades")

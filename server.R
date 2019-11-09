@@ -2,8 +2,8 @@ function(input, output, session){
   
   
   rv = reactiveValues()
-  rv$see_df = NULL
-  rv$see_cur_st = NA
+  rv$see_df = NULL # the df of current student_grade be shown
+  rv$see_cur_st = NA # the index of the current student be shown
   
   
   
@@ -57,7 +57,9 @@ function(input, output, session){
   
   observeEvent(input$see_refresh,{
     create_df_for_each_student(students)
-    
+    filename = paste0(st_dir, "/", input$see_student, ".rda")
+    eval(parse(text=paste0("load('", filename, "')")))
+    eval(parse(text=paste0('rv$see_df = ', input$see_student)))
   })
   
   
@@ -72,8 +74,11 @@ function(input, output, session){
   })
   
   output$see_grades <- renderPlot({
-    req(input$see_student)
+    # req(input$see_student)
     # req(input$see_refresh)
+    filename = paste0(st_dir, "/", input$see_student, ".rda")
+    eval(parse(text=paste0("load('", filename, "')")))
+    eval(parse(text=paste0('rv$see_df = ', input$see_student)))
     df1 = rv$see_df
     # df1 = df1[numeric_Metrics]
     
