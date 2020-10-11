@@ -1,5 +1,5 @@
 
-# navbarPage(title="shinyGrades",
+# navbarPage(title="shinyGrading",
 
 # tabPanel(
 #   title = "Grade",

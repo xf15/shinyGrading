@@ -1,4 +1,4 @@
-Package: shinyGrades
+Package: shinyGrading
 Title: A web-based interface for giving high-level feedback on programming worksheets
 Version: 0.0.0.9000
 Authors@R: c(
